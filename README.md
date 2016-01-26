@@ -1,2 +1,6 @@
-# workinit
-a init work template for my works
+# gxxnewproj
+an init work template for my works
+
+
+    $ npm install
+    $ npm start
