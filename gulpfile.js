@@ -13,21 +13,27 @@ var gulp = require('gulp'),
     livereload = require('gulp-livereload'),
     ts = require('gulp-typescript'),
     watch = require('gulp-watch'),
+    server = require('gulp-develop-server'),
     del = require('del');
-// font
-gulp.task('font', function(){
-  return gulp.src('src/font/**')
-    .pipe(gulp.dest('dist/font'))
-    //.pipe(notify({ message: 'font task complete' }));
+// server
+gulp.task( 'server:start', function() {
+    server.listen( { path: './server.js' } );
 });
+
 // css
 gulp.task('css', function() {
-  return sass('src/css/common.scss',{ style: 'expanded' })
+  return sass('src/css/common.scss',{ style: 'expanded', "sourcemap=none": true})
+    .on('error',notify.onError(function (error) {return 'Sass error!'}))
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .on('error',notify.onError(function (error) {return 'Sass error!'}))
     .pipe(gulp.dest('dist/css'))
+    .on('error',notify.onError(function (error) {return 'Sass error!'}))
     .pipe(rename({ suffix: '.min' }))
+    .on('error',notify.onError(function (error) {return 'Sass error!'}))
     .pipe(minifycss())
+    .on('error',notify.onError(function (error) {return 'Sass error!'}))
     .pipe(gulp.dest('dist/css'))
+    .on('error',notify.onError(function (error) {return 'Sass error!'}))
     //.pipe(notify({ message: 'css task complete' }));
 });
 // js
@@ -36,6 +42,7 @@ gulp.task('jslib', function(){
     .pipe(gulp.dest('dist/js/libs'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(uglify())
+    .on('error',notify.onError(function (error) {return 'Jslib error!'}))
     .pipe(gulp.dest('dist/js/libs'))
     //.pipe(notify({ message: 'jslib task complete' }));
 });
@@ -44,9 +51,11 @@ gulp.task('ts', function(){
     .pipe(ts({
       noImplicitAny: true
     }))
+    .on('error',notify.onError(function (error) {return 'Ts error!'}))
     .pipe(gulp.dest('dist/js'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(uglify())
+    .on('error',notify.onError(function (error) {return 'Ts error!'}))
     .pipe(gulp.dest('dist/js'))
     //.pipe(notify({ message: 'ts task complete' }));
 });
@@ -56,14 +65,24 @@ gulp.task('js', function() {
     .pipe(gulp.dest('dist/js'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(uglify())
+    .on('error',notify.onError(function (error) {return 'Js error!'}))
     .pipe(gulp.dest('dist/js'))
     //.pipe(notify({ message: 'js task complete' }));
+});
+// font
+gulp.task('font', function(){
+  return gulp.src('src/font/**')
+    .pipe(gulp.dest('dist/font'))
+    .on('error',notify.onError(function (error) {return 'Font error!'}))
+    //.pipe(notify({ message: 'font task complete' }));
 });
 // img
 gulp.task('img', function() {
   return gulp.src('src/img/**')
     //.pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
+    .on('error',notify.onError(function (error) {return 'Img error!'}))
     .pipe(gulp.dest('dist/img'))
+    .on('error',notify.onError(function (error) {return 'Img error!'}))
     //.pipe(notify({ message: 'img task complete' }));
 });
 // Watch
@@ -93,13 +112,17 @@ gulp.task('watch', function() {
   // Create LiveReload server
   livereload.listen();
   // Watch any files in dist/, reload on change
-  watch('dist/**',function(){
-    livereload.changed();
+  watch(['**/*.html','dist/**/*'],function(file){
+    livereload.changed(file.path);
+  });
+  // Watch server.js to restart intime
+  watch('server.js', function(){
+    server.restart();
   });
 });
 
 //develop
-gulp.task('develop', ['font', 'css', 'jslib', 'ts', 'js', 'img', 'watch']);
+gulp.task('develop', ['server:start', 'font', 'css', 'jslib', 'ts', 'js', 'img', 'watch']);
 
 //clean
 // 清空图片、样式、js
@@ -111,3 +134,4 @@ gulp.task('clean', function(cb) {
 gulp.task('default', ['clean'], function() {
   gulp.start('develop');
 });
+
