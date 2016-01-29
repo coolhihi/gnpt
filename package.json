@@ -1,15 +1,15 @@
 {
-  "name": "gxxnewproj",
+  "name": "gnpt",
   "version": "0.0.1",
   "author": "COoL",
-  "description": "项目初始化模板，建立gulp监听",
+  "description": "Project init template. Start with gulp and server",
   "repository": {
     "type": "git",
-    "url": "https://github.com/coolhihi/gxxnewproj.git"
+    "url": "https://github.com/coolhihi/gnpt.git"
   },
   "license": "MIT",
   "engines": {
-    "node": "0.10.x"
+    "node": "x"
   },
   "scripts": {
     "start": "gulp"
