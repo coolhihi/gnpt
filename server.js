@@ -8,6 +8,8 @@ var server = app.listen(8081, function () {
     var host = server.address().address;
     var port = server.address().port;
 
+    console.log("===========================================================================================================");
     console.log("Server for test is running，please visit: http://127.0.0.1:%s", port);
+    console.log("===========================================================================================================");
 
 })
