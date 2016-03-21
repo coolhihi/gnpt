@@ -15,6 +15,7 @@ It is a front-end workbench, it easy start a new project. Initialize with gulp a
 5. img auto copy to dist (compress can be enable)
 6. run an http server with gulp
 7. livereload support
+8. es6 support with babel
 
 # Installation
 

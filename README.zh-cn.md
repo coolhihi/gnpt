@@ -15,6 +15,7 @@
 5. 支持 img 自动转存 (可修改gulpfile.js开启压缩)
 6. 开启 http 服务，方便立即进行调试
 7. 支持 livereload 自动更新样式，需安装chrome插件支持
+8. 通过 babel 实现 ES6 支持
 
 # 安装方法
 
